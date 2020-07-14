@@ -233,8 +233,9 @@ public class LinHashMap <K, V>
     private void split ()
     {
         out.println ("split: bucket chain " + isplit);
-
         //  T O   B E   I M P L E M E N T E D
+        /** @author David Seeler */
+
         Bucket newBucket = new Bucket(); // New bucket that may store some values from the split bucket
         Bucket temp = new Bucket(); // Stores values from the split bucket that are not going to the new one
 
