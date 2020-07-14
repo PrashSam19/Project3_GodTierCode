@@ -1,8 +1,8 @@
 Methods left to implement:
 
 LinHashMap.java:
--entrySet()
--split()
+-entrySet() David
+-split() David
 
 Table.java:
 -project(String attributes)

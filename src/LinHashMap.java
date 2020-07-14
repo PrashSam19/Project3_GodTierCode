@@ -17,6 +17,7 @@ public class LinHashMap <K, V>
        extends AbstractMap <K, V>
        implements Serializable, Cloneable, Map <K, V>
 {
+
     /** The debug flag
      */
     private static final boolean DEBUG = true;
@@ -121,12 +122,29 @@ public class LinHashMap <K, V>
      * Return a set containing all the entries as pairs of keys and values.
      * @return  the set view of the map
      */
-    public Set <Map.Entry <K, V>> entrySet ()
-    {
+    public Set <Map.Entry <K, V>> entrySet () {
         var enSet = new HashSet <Map.Entry <K, V>> ();
 
         //  T O   B E   I M P L E M E N T E D
-            
+        /** @author David Seeler */
+
+        int count = 0; // Increments loop
+        Bucket bucket = null; // References buckets in the hash table
+        AbstractMap.SimpleEntry<K, V> newEntry = null; // References a new entry to enSet
+
+        // Loop through all buckets in the hash table
+        while (count < hTable.size()){
+            bucket = hTable.get(count);
+            // Loop through all slots within each bucket
+            for (int i = 0; i < SLOTS; i++){
+                // If key and value of iteration are not null, add pair to enSet
+                if (bucket.key[i] != null && bucket.find(bucket.key[i]) != null){
+                    newEntry = new AbstractMap.SimpleEntry<K, V>(bucket.key[i], bucket.find(bucket.key[i]));
+                    enSet.add(newEntry);
+                }
+            }
+            count++; // Increment bucket
+        }
         return enSet;
     } // entrySet
 
@@ -163,7 +181,10 @@ public class LinHashMap <K, V>
 
         var b = bh;
         while (true)  {
-            if (b.nKeys < SLOTS) { b.add (key, value); return oldV; }
+            if (b.nKeys < SLOTS) {
+                b.add (key, value);
+                return oldV;
+            }
             if (b.next != null) b = b.next; else break;
         } // while
 
@@ -214,7 +235,37 @@ public class LinHashMap <K, V>
         out.println ("split: bucket chain " + isplit);
 
         //  T O   B E   I M P L E M E N T E D
+        Bucket newBucket = new Bucket(); // New bucket that may store some values from the split bucket
+        Bucket temp = new Bucket(); // Stores values from the split bucket that are not going to the new one
 
+        // Loop through each slot in the split bucket
+        for (int i = 0; i < SLOTS; i++) {
+            if (hTable.get(isplit).key[i] != null) {
+                // If the hash code (using mod2) of an element in the split bucket matches the new bucket, add it
+                if (h2(hTable.get(isplit).key[i]) == hTable.size()) {
+                    newBucket.add(hTable.get(isplit).key[i], hTable.get(isplit).value[i]);
+                }
+                // Else, keep it in the split bucket (temp)
+                else {
+                    temp.add(hTable.get(isplit).key[i], hTable.get(isplit).value[i]);
+                }
+            }
+        }
+
+        hTable.remove(isplit); // Empty the original split bucket
+        hTable.add(isplit, temp); // Replace it with the temp bucket
+        hTable.add(newBucket); // Add new bucket at the end
+
+        // If the current split phase is not complete yet, increment isplit
+        if (isplit < mod1 - 1){
+            isplit++;
+        }
+        // Else, reset isplit and update hash functions
+        else{
+            isplit = 0;
+            mod1 *= 2;
+            mod2 = mod1 * 2;
+        }
     } // split
 
     /********************************************************************************

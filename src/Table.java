@@ -63,7 +63,7 @@ public class Table
 
     /** The supported map types.
      */
-    private enum MapType { NO_MAP, TREE_MAP, LINHASH_MAP, BPTREE_MAP }
+    private enum MapType { NO_MAP, TREE_MAP, LINHASH_MAP, HASH_MAP }
 
     /** The map type to be used for indices.  Change as needed.
      */
@@ -77,7 +77,7 @@ public class Table
         return switch (mType) {
         case TREE_MAP    -> new TreeMap <> ();
         case LINHASH_MAP -> new LinHashMap <> (KeyType.class, Comparable [].class);
-        case BPTREE_MAP  -> new BpTreeMap <> (KeyType.class, Comparable [].class);
+        case HASH_MAP  -> new HashMap <> ();
         default          -> null;
         }; // switch
     } // makeMap
