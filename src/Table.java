@@ -162,7 +162,7 @@ public class Table
 
         List <Comparable []> rows = new ArrayList <> ();
 
-        //  T O   B E   I M P L E M E N T E D 
+        //     B E   I M P L E M E N T E D
 
         return new Table (name + count++, attrs, colDomain, newKey, rows);
     } // project
