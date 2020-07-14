@@ -16,8 +16,6 @@ Table.java:
 
 note: reference code in non-index.java on eLC for some of these Table methods
 
-BpTreeMap: ?
-
 Performance Evaluation:
 -TreeMap
 -HashMap
