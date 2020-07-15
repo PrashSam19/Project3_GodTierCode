@@ -7,11 +7,11 @@ LinHashMap.java:
 Table.java:
 -project(String attributes)
 -select(KeyType keyVal)
--union(Table table2)
--minus(Table table2)
+-union(Table table2) Prash
+-minus(Table table2) Prash
 -join(String attributes1, String attributes2, Table table2)
 -i_join (String attributes1, String attributes2, Table table2) ?
--join(Table table2)
+-join(Table table2) Prash
 -typeCheck (Comparable [] t)
 
 note: reference code in non-index.java on eLC for some of these Table methods
