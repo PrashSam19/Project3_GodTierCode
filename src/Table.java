@@ -200,7 +200,23 @@ public class Table
 
         List<Comparable[]> rows = new ArrayList<>();
 
-        //  T O   B E   I M P L E M E N T E D 
+        //start implementation
+        int x=0;
+        while(x<tuples.size()) 
+                {
+                  //Create new key reference to acquire key values from given tuple
+                  KeyType targKey = new KeyType(extract(tuples.get(x), key)));
+  
+                  //Confirms whether new key reference equals value of key from given tuple
+                  if(keyVal.equals(targKey))
+	                {
+	                   rows.add(targKey);
+	                }
+                  else 
+	                {
+	                  x++;
+	                }
+                } //end while
 
         return new Table(name + count++, attribute, domain, key, rows);
     } // select
